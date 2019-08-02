@@ -39,7 +39,7 @@
 	<!-- Logo / Mobile Menu -->
 	<div class="three columns">
 		<div id="logo">
-			<h1><a href="index.html"><img src="{% static 'images/logo.png' %}" alt="Chow" /></a></h1>
+			<h1><a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Chow" /></a></h1>
 		</div>
 	</div>
 
@@ -50,40 +50,33 @@
 
 	<nav id="navigation" class="menu nav-collapse">
 		<ul>
-			<li><a href="index.html">Home</a></li>
+			<li><a href="{% url 'home' %}">Home</a></li>
 
 			<li><a href="#">Demos</a>
 				<ul>
-					<li><a href="index.html">Grid Homepage</a></li>
-					<li><a href="index-2.html">List Homepage</a></li>
-					<li><a href="index-3.html">Boxed Version</a></li>
+					<li><a href="{% url 'home' %}">Grid Homepage</a></li>
+					<li><a href="{% url 'home' %}">List Homepage</a></li>
+					<li><a href="{% url 'home' %}">Boxed Version</a></li>
 				</ul>
 			</li>
 
 			<li><a href="#" id="current">Recipes</a>
 				<ul>
-					<li><a href="browse-recipes.html">Browse Recipes</a></li>
-					<li><a href="recipe-page-1.html">Recipe Page #1</a></li>
-					<li><a href="recipe-page-2.html">Recipe Page #2</a></li>
+					<li><a href="{% url 'bab:browserecipe' %}">Browse Recipes</a></li>
+					<li><a href="{% url 'bab:recipepage' %}">Recipe Page #1</a></li>
+					<li><a href="{% url 'bab:recipepage' %}">Recipe Page #2</a></li>
 				</ul>
 			</li>
 
 			<li><a href="#">Pages</a>
 				<ul>
-					<li><a href="shortcodes.html">Shortcodes</a></li>
-					<li><a href="typography.html">Typography</a></li>
-					<li><a href="contact.html">Contact</a></li>
+					<li><a href="{% url 'bab:shortcodes' %}">Shortcodes</a></li>
+					<li><a href="{% url 'bab:typography' %}">Typography</a></li>
+					<li><a href="{% url 'bab:contact' %}">Contact</a></li>
 				</ul>
 			</li>
 
-			<li><a href="#">Shop</a>
-				<ul>
-					<li><a href="shop.html">Shop</a></li>
-					<li><a href="product-page.html">Product Page</a></li>
-				</ul>
-			</li>
-
-			<li><a href="submit-recipe.html">Submit Recipe</a></li>
+			<li><a href="{% url 'bab:submitrecipe' %}">Submit Recipe</a></li>
 		</ul>
 	</nav>
 
@@ -606,9 +599,9 @@
 			<div class="clearfix"></div>
 
 			<ul class="footer-links">
-				<li><a href="browse-recipes.html">Browse Recipes</a></li>
-				<li><a href="recipe-page-1.html">Recipe Page</a></li>
-				<li><a href="submit-recipe.html">Submit Recipe</a></li>
+				<li><a href="{% url 'bab:browserecipe' %}">Browse Recipes</a></li>
+				<li><a href="{% url 'bab:recipepage' %}">Recipe Page</a></li>
+				<li><a href="{% url 'bab:submitrecipe' %}">Submit Recipe</a></li>
 			</ul>
 
 		</div>

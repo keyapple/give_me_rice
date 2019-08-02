@@ -9,5 +9,5 @@ urlpatterns=[
     path('', views.home, name = "home"),
     path('admin/', admin.site.urls),
     path('bab/', include(bab_app_urls)),
-    
+    path('accounts/', include('allauth.urls')) 
 ]

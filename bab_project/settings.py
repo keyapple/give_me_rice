@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,6 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'allauth',
+    'crispy_forms',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.kakao',
     'bab_app',
     'users',
 ]
@@ -70,6 +81,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bab_project.wsgi.application'
+
+AUTHENTICATION_BACKENDS = (
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 
 
 # Database
@@ -115,11 +131,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+SITE_ID = 1
+
 AUTH_USER_MODEL = "users.User"
+
 ACCOUNT_ALLOW_REGISTRATION = True
+
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
+
 LOGIN_REDIRECT_URL = 'home'
+
 LOGIN_URL = 'account_login'
 
 
@@ -131,10 +154,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'bab_project', 'static')
 ]
-
-
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'sns', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'bab_project', 'media')

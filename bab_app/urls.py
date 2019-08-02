@@ -24,9 +24,9 @@ urlpatterns = [
     path('contact/',views.contact, name = "contact"),
     path('productpage/',views.productpage, name = "productpage"),
     path('recipepage/',views.recipepage, name = "recipepage"),
-    path('shop/',views.shop, name = "shop"),
     path('shortcodes/',views.shortcodes, name = "shortcodes"),
     path('submitrecipe/',views.submitrecipe, name = "submitrecipe"),
     path('typography/',views.typography, name = "typography"),
+    
 ]
 

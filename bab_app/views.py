@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import *
 import pdb
 
 def browserecipes(request):
@@ -14,18 +15,27 @@ def productpage(request):
 
 
 def recipepage(request):
-    return render(request, 'bab_app/recipe-page.html')
-
-
-def shop(request):
-    return render(request, 'bab_app/shop.html')
+    return render(request, 'bab_app/recipe-page-1.html')
 
 
 def shortcodes(request):
-    return render(request, 'bab_app/shortcodes.html')   
+    return render(request, 'bab_app/shortcodes.html')
 
 
 def submitrecipe(request):
+    if request.method == "POST":
+        title = request.POST.get('title')
+        content = request.POST.get('content')
+        image = request.FILES.get('image')
+        ingredient = request.POST.get('ingredient')
+        quantity = request.POST.get('quantity')
+        post = Post.objects.create(title=title, content=content, image=image)
+        a = Ingredient.objects.create(ingredient_name=ingredient_name)
+        b = Postingre.objects.create(quantity=quantity)
+        for x,y in (a, b):
+            ingredient=x, postingre=y
+        pdb.set_trace()
+        return redirect('home')
     return render(request, 'bab_app/submit-recipe.html')
 
 

@@ -2,7 +2,7 @@ from django.contrib import admin
 from . import models
 
 @admin.register(models.Post)
-class ImageAdmin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     list_diaply_links = (
     )
 
@@ -15,8 +15,9 @@ class ImageAdmin(admin.ModelAdmin):
     )
 
     list_display = (
-        'image',
         'title',
+        'id',
+        'image',
         'content',
         'user',
         'view_count',
@@ -29,6 +30,7 @@ class ImageAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = (
         'message',
+        'id',
         'user',
         'post',
         'created_at',
@@ -38,7 +40,8 @@ class CommentAdmin(admin.ModelAdmin):
 @admin.register(models.Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = (
-        'ingredient_name',
+        'ingredient',
+        'id',
         'created_at',
         'updated_at',
     )
@@ -48,9 +51,11 @@ class IngredientAdmin(admin.ModelAdmin):
 @admin.register(models.Postingre)
 class PostingreAdmin(admin.ModelAdmin):
     list_display = (
-        'post',
-        'ingredient_name',
+        'post_id',
+        'ingredient',
+        'ingredient_id',
         'quantity',
+        'id',
         'created_at',
         'updated_at',
     )

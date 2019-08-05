@@ -46,8 +46,8 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.facebook',
     'bab_app',
     'users',
 ]

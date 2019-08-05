@@ -67,14 +67,14 @@
 				<ul>
 					<li>
 						<form method="post" action="{% url 'account_logout' %}">
-							{% csrf_token %}
-							
-							<button class="btn btn-danger" type="submit">로그아웃</button>
-						  </form>
-						</li>
+						{% csrf_token %}
+						
+						<button class="btn btn-danger" type="submit">로그아웃</button>
+						</form>
+					</li>
+					<li><a href="{% url 'bab:favorite' user.id %}">즐겨찾기</a></li>
 				</ul>
             </li>
-
 			{% else %}
 			<li><a href="#">로그인</a>
 				<ul>

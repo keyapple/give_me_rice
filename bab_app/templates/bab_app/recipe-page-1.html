@@ -1,7 +1,4 @@
-<!DOCTYPE html>
-<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
-<!--[if (gte IE 9)|!(IE)]><!--><html lang="en"> <!--<![endif]-->
-<head>
+{% load static %}
 
 <!-- Basic Page Needs
 ================================================== -->
@@ -17,11 +14,6 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <link rel="stylesheet" href="{% static 'css/colors/green.css' %}" id="colors">
 
-<!--[if lt IE 9]>
-	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
-
-</head>
 
 <body>
 
@@ -29,54 +21,66 @@
 <div id="wrapper">
 
 
-<!-- Header
-================================================== -->
-<header id="header">
-
-<!-- Container -->
-<div class="container">
-
-	<!-- Logo / Mobile Menu -->
-	<div class="three columns">
-		<div id="logo">
-			<h1><a href="{% url 'home' %}"><img src="{% static 'images/logo.png' %}" alt="Chow" /></a></h1>
+	<!-- Header
+	================================================== -->
+	<header id="header">
+	
+	<!-- Container -->
+	<div class="container">
+	
+		<!-- Logo / Mobile Menu -->
+		<div class="three columns">
+			<div id="logo">
+				<h1><a href="index.html"><img src="{% static 'images/logo.png' %}" alt="Chow" /></a></h1>
+			</div>
 		</div>
-	</div>
-
-
-<!-- Navigation
+		<!-- Navigation
 ================================================== -->
 <div class="thirteen columns navigation">
 
 	<nav id="navigation" class="menu nav-collapse">
 		<ul>
-			<li><a href="{% url 'home' %}">Home</a></li>
-
-			<li><a href="#">Demos</a>
+			<li><a href="{% url 'home' %}">홈</a></li>
+			
+			<li><a href="#">레시피</a>
 				<ul>
-					<li><a href="{% url 'home' %}">Grid Homepage</a></li>
-					<li><a href="{% url 'home' %}">List Homepage</a></li>
-					<li><a href="{% url 'home' %}">Boxed Version</a></li>
+					<li><a href="{% url 'bab:browserecipes' %}">레시피 찾기</a></li>
+					<li><a href="{% url 'bab:submitrecipe' %}">레시피 등록</a></li>
 				</ul>
 			</li>
 
-			<li><a href="#" id="current">Recipes</a>
+			{% if request.user.is_authenticated %}
+            <li class="nav-item">
+				<a class="nav-link" href="#">{{ request.user }}님</a>
 				<ul>
-					<li><a href="{% url 'bab:browserecipe' %}">Browse Recipes</a></li>
-					<li><a href="{% url 'bab:recipepage' %}">Recipe Page #1</a></li>
-					<li><a href="{% url 'bab:recipepage' %}">Recipe Page #2</a></li>
+					<li>
+						<form method="post" action="{% url 'account_logout' %}">
+						{% csrf_token %}
+						
+						<button class="btn btn-danger" type="submit">로그아웃</button>
+						</form>
+					</li>
+					<li><a href="{% url 'bab:favorite' user.id %}">즐겨찾기</a></li>
+				</ul>
+            </li>
+			{% else %}
+			<li><a href="#">로그인</a>
+				<ul>
+					<li><a href="{% url 'account_login' %}">로그인</a></li>
+					<li><a href="{% url 'account_signup' %}">회원가입</a></li>
+					
 				</ul>
 			</li>
-
-			<li><a href="#">Pages</a>
-				<ul>
-					<li><a href="{% url 'bab:shortcodes' %}">Shortcodes</a></li>
-					<li><a href="{% url 'bab:typography' %}">Typography</a></li>
-					<li><a href="{% url 'bab:contact' %}">Contact</a></li>
-				</ul>
+			{% endif %}
+		
+			<li>
+				{% if request.user.is_authenticated %}
+				<a href="{% url 'bab:contact' %}">문의</a>
+				{% else %}
+				<a href="{% url 'account_login' %}">문의</a>
+				{% endif %}
 			</li>
 
-			<li><a href="{% url 'bab:submitrecipe' %}">Submit Recipe</a></li>
 		</ul>
 	</nav>
 
@@ -85,11 +89,10 @@
 </div>
 <!-- Container / End -->
 </header>
-
-
+	
 <!-- Recipe Background -->
 <div class="recipeBackground">
-	<img src="{% static 'images/recipeBackground.jpg' %}" alt="" />
+	<img src="{% static 'images/recipeBackground-02.jpg' %}" alt="" />
 </div>
 
 
@@ -104,7 +107,7 @@
 		<!-- Header -->
 		<section class="recipe-header">
 			<div class="title-alignment">
-				<h2>Chunky Beef Stew</h2>
+				<h2>{{ posts.title }}</h2>
 				<div class="rating five-stars">
 					<div class="star-rating"></div>
 					<div class="star-bg"></div>
@@ -116,8 +119,11 @@
 
 		<!-- Slider -->
 		<div class="recipeSlider rsDefault">
+			<!-- {% if posts.image %}
+			<img itemprop="image" class="rsImg" src="{{ posts.image.url }}" alt="" />
+			{% endif %} -->
 		    <img itemprop="image" class="rsImg" src="{% static 'images/recipePhoto-01.jpg' %]" alt="" />
-		    <img itemprop="image" class="rsImg" src="{% static 'images/recipePhoto-02.jpg' %}" alt="" />
+			<img itemprop="image" class="rsImg" src="{% static 'images/recipePhoto-02.jpg' %}" alt="" />
 		</div>
 
 
@@ -128,6 +134,9 @@
 				<li>Prep Time: <strong itemprop="prepTime">30 min</strong></li>
 				<li>Cooking: <strong itemprop="cookTime">2 hours</strong></li>
 				<li>Calories: <strong itemprop="calories">632 kcal</strong></li>
+				<li>좋아요: <strong itemprop="calories">{{ posts.like }}</strong></li>
+				<li>조회수: <strong itemprop="calories">{{ posts.view_count }}</strong></li>
+				<li>카테고리: <strong itemprop="calories">{{ posts.category }}</strong></li>
 			</ul>
 			<a href="#" class="print"><i class="fa fa-print"></i> Print</a>
 			<div class="clearfix"></div>
@@ -135,67 +144,50 @@
 
 
 		<!-- Text -->
-		<p itemprop="description">This is a very basic beef stew. It’s easy, delicious and inexpensive to make. While there are hundreds of variations of this traditional recipe, it’s hard to improve on this version’s savory and comforting goodness.</p>
+		<h3>content</h3>
+		<p itemprop="description">{{ posts.content }}</p>
 
 
 		<!-- Ingredients -->
 		<h3>Ingredients</h3>
+		{% if posts.ingredients %}
+		<ul class="ingredient" style="margin-top: 40px;">
+			{% for ingredient in posts.ingredients %}
+			<li class="list-group-item">
+				<p>
+					<b>{{ ingredient.ingredient }} {{ quantity }}</b>
+				</p>
+			</li>
+			{% endfor %}
+		</ul>
+		{% endif %}
+
 		<ul class="ingredients">
+			{% if posts.ingredients %}
+			{% for ingredient in posts.ingredients %}
 			<li>
 				<input id="check-1" type="checkbox" name="check" value="check-1">
-				<label itemprop="ingredients" for="check-1">2 pounds cubed beef stew meat</label>
+				<label itemprop="ingredients" for="check-1">{{ ingredient.ingredient }} {{ quantity }}</label>
 			</li>
+			{% endfor %}
+			{% endif %}
 
-			<li>
-				<input id="check-2" type="checkbox" name="check" value="check-2">
-				<label itemprop="ingredients" for="check-2">3 tablespoons vegetable oil</label>
-			</li>
-
-			<li>
-				<input id="check-3" type="checkbox" name="check" value="check-3">
-				<label itemprop="ingredients" for="check-3">4 cubes beef bouillon, crumbled</label>
-			</li>
-
-			<li>
-				<input id="check-4" type="checkbox" name="check" value="check-4">
-				<label itemprop="ingredients" for="check-4">1 large onion, chopped</label>
-			</li>
-
-			<li>
-				<input id="check-5" type="checkbox" name="check" value="check-5">
-				<label itemprop="ingredients" for="check-5">1 teaspoon dried rosemary</label>
-			</li>
-
-			<li>
-				<input id="check-6" type="checkbox" name="check" value="check-6">
-				<label itemprop="ingredients" for="check-6">1/2 teaspoon ground black pepper</label>
-			</li>	
-
-			<li>
-				<input id="check-7" type="checkbox" name="check" value="check-7">
-				<label itemprop="ingredients" for="check-7">3 large potatoes, peeled and cubed </label>
-			</li>	
-
-			<li>
-				<input id="check-8" type="checkbox" name="check" value="check-8">
-				<label itemprop="ingredients" for="check-8">4 carrots, cut into 1 inch pieces</label>
-			</li>	
-
-			<li>
-				<input id="check-9" type="checkbox" name="check" value="check-9">
-				<label itemprop="ingredients" for="check-9">4 stalks celery, cut into 1 inch pieces</label>
-			</li>										
 		</ul>
 
 
 		<!-- Directions -->
 		<h3>Directions</h3>
 		<ol class="directions" itemprop="recipeInstructions">
+			<li>
+
+			</li>
+		</ol>
+		<!-- <ol class="directions" itemprop="recipeInstructions">
 			<li >In a Dutch oven, heat oil over medium heat until hot, but not smoking. Pat the meat dry with paper towels and brown in batches, transferring the meat with a slotted spoon to a bowl as they are done.</li>
 			<li>In the fat remaining in the pot, cook the onions until softened, about 5 minutes. </li>
 			<li>Return meat to the pot with any juices in the bowl and add the tomatoes with juice, chiles, beer, beef broth, oregano, cumin, and Worcestershire sauce. Season with salt and pepper to taste.</li>
 			<li>Bring to a boil and reduce heat. Simmer, partially covered, for 2 1/2 hours or until meat is tender.</li>
-		</ol>
+		</ol> -->
 
 
 		<!-- Share Post -->
@@ -391,6 +383,7 @@
 		
 		<!-- Add Comment Form -->
 		<form id="add-review" class="add-comment">
+				{% csrf_token %}
 			<fieldset>
 
 				<div>
@@ -439,6 +432,7 @@
 	<div class="widget search-form">
 		<nav class="search">
 			<form action="#" method="get">
+				{% csrf_token %}
 				<button><i class="fa fa-search"></i></button>
 				<input class="search-field" type="text" placeholder="Search for recipes" value=""/>
 			</form>
@@ -559,91 +553,6 @@
 <!-- Wrapper / End -->
 
 
-<!-- Footer
-================================================== -->
-<div id="footer">
-
-	<!-- Container -->
-	<div class="container">
-
-		<div class="five columns">
-			<!-- Headline -->
-			<h3 class="headline footer">About</h3>
-			<span class="line"></span>
-			<div class="clearfix"></div>
-			<p>Cras at ultrices erat, sed vulputate eros. Nunc at augue gravida est fermentum vulputate. Pellentesque et ipsum in dui malesuada tempus.</p>
-		</div>
-
-		<div class="three columns">
-
-			<!-- Headline -->
-			<h3 class="headline footer">Archives</h3>
-			<span class="line"></span>
-			<div class="clearfix"></div>
-
-			<ul class="footer-links">
-				<li><a href="#">June 2014</a></li>
-				<li><a href="#">July 2014</a></li>
-				<li><a href="#">August 2014</a></li>
-				<li><a href="#">September 2014</a></li>
-				<li><a href="#">November 2014</a></li>
-			</ul>
-
-		</div>
-
-		<div class="three columns">
-
-			<!-- Headline -->
-			<h3 class="headline footer">Recipes</h3>
-			<span class="line"></span>
-			<div class="clearfix"></div>
-
-			<ul class="footer-links">
-				<li><a href="{% url 'bab:browserecipe' %}">Browse Recipes</a></li>
-				<li><a href="{% url 'bab:recipepage' %}">Recipe Page</a></li>
-				<li><a href="{% url 'bab:submitrecipe' %}">Submit Recipe</a></li>
-			</ul>
-
-		</div>
-
-		<div class="five columns">
-
-			<!-- Headline -->
-			<h3 class="headline footer">Newsletter</h3>
-			<span class="line"></span>
-			<div class="clearfix"></div>
-			<p>Sign up to receive email updates on new product announcements, gift ideas, sales and more.</p>
-
-			<form action="#" method="get">
-				<input class="newsletter" type="text" placeholder="mail@example.com" value=""/>
-				<button class="newsletter-btn" type="submit">Subscribe</button>
-
-			</form>
-		</div>
-
-	</div>
-	<!-- Container / End -->
-
-</div>
-<!-- Footer / End -->
-
-<!-- Footer Bottom / Start -->
-<div id="footer-bottom">
-
-	<!-- Container -->
-	<div class="container">
-
-		<div class="eight columns">© Copyright 2014 by <a href="#">Chow</a>. All Rights Reserved.</div>
-
-	</div>
-	<!-- Container / End -->
-
-</div>
-<!-- Footer Bottom / End -->
-
-<!-- Back To Top Button -->
-<div id="backtotop"><a href="#"></a></div>
-
 
 
 <!-- Java Script
@@ -660,7 +569,6 @@
 <script src="{% static 'scripts/jquery.magnific-popup.min.js' %}"></script>
 <script src="{% static 'scripts/jquery.pricefilter.js' %}"></script>
 <script src="{% static 'scripts/custom.js' %}"></script>
-
 
 <!-- Style Switcher
 ================================================== -->
@@ -697,5 +605,5 @@
 </div>
 
 
+
 </body>
-</html>

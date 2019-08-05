@@ -51,17 +51,11 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 
 
-	<a href="{% provider_login_url 'github' %}">Github으로 로그인</a>
-
-<li><a class="facebook" href="#"><i class="icon-facebook"></i></a></li>
-{% load socialaccount %}
-<a href="{% provider_login_url 'facebook' %}">Facebook으로 로그인</a><br>
-
-{% load socialaccount %}
+  <a href="{% provider_login_url 'github' %}">Github으로 로그인</a>
+  
 <a class="btn btn-block btn-social btn-kakao">
   <span class="fa fa-kakao"></span> Sign in with Kakao
 </a>
-<a href="{% provider_login_url 'kakao' %}">Kakao으로 로그인</a><br>
 
 <a class="btn btn-block btn-social btn-google">
   <span class="fa fa-google"></span> Sign in with Google

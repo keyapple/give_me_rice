@@ -21,7 +21,7 @@ oauthlib==3.0.1
 Pillow==6.0.0
 psycopg2-binary==2.8.3
 pycparser==2.19
-PyJWT==1.7.1
+PyJWT==2.4.0
 pylint==2.3.1
 Pyphen==0.9.5
 python-social-auth==0.3.6
